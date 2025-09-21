@@ -11,7 +11,7 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color:white;
+    background-color:rgb(252, 252, 252);
 } 
 
 .todo-container__header{
@@ -20,10 +20,10 @@ body {
 }
 
 .todo-container{
-    background:rgb(206, 206, 206);
+    background:rgb(253, 253, 253);
     padding:20px;
     /*border-radius: 12px; 동글동글하고 싶을 때*/
-    /*box-shadow: 0 4px 10px rgba(0,0,0,0.1); 그림자 주고 싶을 때*/
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     width: 350px;
 }
 
