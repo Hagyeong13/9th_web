@@ -98,6 +98,7 @@ body {
     border-radius:5px;
 }
 
+/* 상태 따라 바꿀 거라
 .todo-container__render_item_text {
     flex: 1;
 }
@@ -105,13 +106,14 @@ body {
 .todo-container__render_item_botton {
     padding: 6px 8px;
     font-size: 10px;
-    background:rgb(13, 13, 13);
+    background:rgb(14, 11, 53);
     color:white;
     border-radius:5px;
     cursor:pointer;
-    transition: background-color 0.3s ease; /*background-color 바뀌는걸 명시해야 동작함*/
+    transition: background-color 0.3s ease; background-color 바뀌는걸 명시해야 동작함
 }
 
 .todo-container__render_item_botton:hover {
     background-color: rgb(45, 45, 45);
 }
+*/
