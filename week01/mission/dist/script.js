@@ -21,7 +21,7 @@ const getTodoText = () => {
     return todoInput.value.trim();
 };
 const addTodoText = (text) => {
-    todos.push({ id: todos.length + 1, text: text });
+    todos.push({ id: Date.now(), text: text });
     todoInput.value = '';
     renderTasks();
 };
