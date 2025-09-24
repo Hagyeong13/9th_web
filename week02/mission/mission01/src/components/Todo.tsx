@@ -1,5 +1,7 @@
 import { useState, type FormEvent } from "react";
 import type {TTodo} from '../types/todo';
+import TodoForm from "./TodoForm";
+import TodoList from "./TodoList";
 
 const Todo = () => {
     const [todos,setTodos]=useState<TTodo[]>([]);
@@ -30,63 +32,30 @@ const Todo = () => {
         <>
             <h1 className='todo-container__header'>[TO-DO LIST]</h1>
             <div className = 'todo-container'>
-                <form onSubmit={handleSubmit} className = 'todo-container__form' id='todo-form'>
-                    <h4 className = 'todo-container__form_title'>할 일 추가하기</h4>
-                    <div className = 'todo-container__form_button'>
-                        <input
-                            value={input}
-                            onChange={(e)=>setInput(e.target.value)}
-                            type="text"
-                            id="todo-input"
-                            className="todo-container__form_input"
-                            required
-                        />
-                        <button type="submit" className="todo-container__form_submit">추가</button>
-                    </div>
-                </form>
+                <TodoForm input={input} setInput={setInput} handleSubmit={handleSubmit} />
                 <div className="todo-container__render">
-                    <div className="todo-container__render_section">
-                        <h4 className="todo-container__render_title">할 일</h4>
-                        <ul id="todo-list" className="todo-container__render_list">
-                            {todos.map((todo)=>(
-                                <li key={todo.id} className="todo-container__render_item">
-                                    <p className="todo-container__render_item_text">
-                                        {todo.text}
-                                    </p>
-                                    <button onClick={()=>handleComplete(todo)}
-                                        style={{
-                                            backgroundColor: 'rgba(12, 49, 105, 1)',
-                                            color: 'white',
-                                            cursor: 'pointer',
-                                            borderRadius: '5px',
-                                            padding: '4px 8px',
-                                        }} 
-                                        className="todo-container__render_item_button">완료</button>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                    <div className="todo-container__render_section">
-                        <h4 className="todo-container__render_title">완료</h4>
-                        <ul id="done-list" className="todo-container__render_list">
-                            {donetodos.map((todo)=>(
-                                <li key={todo.id} className="todo-container__render_item">
-                                    <p className="todo-container__render_item_text">
-                                        {todo.text}
-                                    </p>
-                                    <button onClick={()=>handleDelete(todo)}
-                                        style={{
-                                            backgroundColor: 'rgba(6, 21, 53, 1)',
-                                            color: 'white',
-                                            cursor: 'pointer',
-                                            borderRadius: '5px',
-                                            padding: '4px 8px',
-                                        }}
-                                        className="todo-container__render_item_button">삭제</button>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
+                    <TodoList
+                        title='할 일'
+                        todos={todos}
+                        buttonLabel='완료'
+                        backgroundColor= 'rgba(12, 49, 105, 1)'
+                        color='white'
+                        cursor='pointer'
+                        borderRadius='5px'
+                        padding='4px 8px'
+                        onClick={handleComplete}
+                    />
+                    <TodoList
+                        title='완료'
+                        todos={donetodos}
+                        buttonLabel='삭제'
+                        backgroundColor='rgba(6, 21, 53, 1)'
+                        color='white'
+                        cursor='pointer'
+                        borderRadius='5px'
+                        padding='4px 8px'
+                        onClick={handleDelete}
+                    />
                 </div>
             </div>
         </>
