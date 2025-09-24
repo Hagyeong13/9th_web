@@ -1,13 +1,22 @@
-import { type FormEvent } from "react";
+import { useState, type FormEvent } from "react";
+import { useTodo } from "../context/TodoContext";
 
-interface TodoFormProps {
-    input: string;
-    setInput: (input: string) => void;
-    handleSubmit: (e:FormEvent<HTMLFormElement>)=>void;
-}
+const TodoForm = () => {
 
-const TodoForm = ({input, setInput, handleSubmit}:TodoFormProps) => {
-    return (
+    const [input,setInput]=useState<string>('');
+    const {handleAdd} = useTodo();
+
+    const handleSubmit = (e:FormEvent<HTMLFormElement>):void => {
+        e.preventDefault(); //새로고침 방지
+        const text=input.trim(); //띄어쓰기 잘라내기
+
+        if(text){
+            handleAdd(text);
+            setInput('');
+        }
+    }
+    
+    return (    
         <form onSubmit={handleSubmit} className = 'todo-container__form' id='todo-form'>
             <h4 className = 'todo-container__form_title'>할 일 추가하기</h4>
             <div className = 'todo-container__form_button'>
