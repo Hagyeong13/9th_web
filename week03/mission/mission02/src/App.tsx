@@ -1,5 +1,6 @@
 import './App.css'
 import RootLayout from './layout/root-layout';
+import HomePage from './pages/homePage';
 import MoviePage from './pages/MoviePage';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
@@ -11,7 +12,7 @@ const router=createBrowserRouter([
     children: [
       {
         index: true,
-        element: <MoviePage />
+        element: <HomePage />
       },
       {
         path:'popular',
