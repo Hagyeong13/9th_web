@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import type { Movie, Movies } from "../types/movies"
 import axios from "axios";
+import MovieCard from "../components/MovieCard";
 
 const MoviePage = () => {
     //1. api에서 가져온 데이터 저장할 useState 만들기
@@ -30,9 +31,7 @@ const MoviePage = () => {
      return (
         <ul className="container mx-auto px-16 py-4 grid grid-cols-6 gap-2">
             {movies.map((m) => (
-                <li key={m.id}>
-                    <img src={`https://image.tmdb.org/t/p/w500${m.poster_path}`} className="w-1.9 rounded-md hover:blur"/>
-                </li> 
+                <MovieCard movie={m}/>
             ))}
         </ul>
     );
