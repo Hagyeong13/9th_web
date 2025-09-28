@@ -4,6 +4,7 @@ export type Movie  = {
     poster_path : string
     release_data : string
     overview : string
+    backdrop_path : string
 }
 
 export type Movies = {

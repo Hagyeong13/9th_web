@@ -28,12 +28,24 @@ const router=createBrowserRouter([
         element: <MoviePage />
       },
       {
+        path:'playing/:movieId',
+        element: <DetailMovie />
+      },
+      {
         path:'top_rated',
         element: <MoviePage />
       },
       {
+        path:'top_rated/:movieId',
+        element: <DetailMovie />
+      },
+      {
         path:'upcoming',
         element: <MoviePage />
+      },
+      {
+        path:'upcoming/:movieId',
+        element: <DetailMovie />
       },
       {
         path: "*",

@@ -57,10 +57,16 @@ const DetailMovie = () => {
             {isError &&(<ErrorPage />)}
 
             {!isLoading && (
-                <div>
-                    <h1>{movie?.title}</h1>
-                    <ul className="container mx-auto px-16 py-4 grid grid-cols-6 gap-2">
-                        {credits.map((m) => (
+                <div className="relative w-full h-[400px]">
+                    <img src={`https://image.tmdb.org/t/p/w500${movie?.backdrop_path}`} className="absolute inset-0 w-full h-full object-cover" />
+                    <div className="absolute inset-0 bg-black/50" />
+                        <div className="relative z-10 flex flex-col justify-center h-full px-16 text-white">
+                        <h1 className="text-3xl font-bold mb-4">{movie?.title}</h1>
+                        <p className="text-base mb-3 max-w-3xl line-clamp-3">{movie?.overview}</p>
+                        <p className="text-sm text-gray-200">개봉일: {movie?.release_data}</p>
+                    </div>
+                    <ul className="container mx-auto mt-8 px-16 py-4 grid grid-cols-5 gap-2">
+                        {credits.slice(0, 10).map((m) => (
                             <CreditCard key={m.id} credit={m}/>
                         ))}
                     </ul>
