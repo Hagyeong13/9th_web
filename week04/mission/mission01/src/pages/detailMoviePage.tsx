@@ -28,6 +28,7 @@ const DetailMovie = () => {
 
                 setCredits(data.cast);
             } catch (error) {
+                console.error(error)
                 setIserror(true);
             }
 
@@ -45,6 +46,7 @@ const DetailMovie = () => {
                 setIsloading(false);
                 setIserror(false);
             } catch(error) {
+                console.error(error)
                 setIserror(true);
             }
         };
@@ -63,7 +65,7 @@ const DetailMovie = () => {
                         <div className="relative z-10 flex flex-col justify-center h-full px-16 text-white">
                         <h1 className="text-3xl font-bold mb-4">{movie?.title}</h1>
                         <p className="text-base mb-3 max-w-3xl line-clamp-3">{movie?.overview}</p>
-                        <p className="text-sm text-gray-200">개봉일: {movie?.release_data}</p>
+                        <p className="text-sm text-gray-200">개봉일: {movie?.release_date}</p>
                     </div>
                     <ul className="container mx-auto mt-8 px-16 py-4 grid grid-cols-5 gap-2">
                         {credits.slice(0, 10).map((m) => (

@@ -34,6 +34,7 @@ const MoviePage = () => {
                 setIsloading(false);
                 setIserror(false);
             } catch (error) {
+                console.error(error)
                 setIserror(true);
             }
         };
