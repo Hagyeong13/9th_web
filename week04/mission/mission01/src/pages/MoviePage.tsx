@@ -1,15 +1,13 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import type { Movie, Movies } from "../types/movies";
-import axios from "axios";
-import MovieCard from "../components/MovieCard";
+import useCustomFetch from "../hooks/useCustomFetch";
 import ErrorPage from "./errorPage";
+import MovieCard from "../components/MovieCard";
+import type { Movies } from "../types/movies";
+
 
 const MoviePage = () => {
-    const [movies, setMovies] = useState<Movie[]>([]);
     const location = useLocation();
-    const [isLoading,setIsloading] =useState(true);
-    const [isError,setIserror]=useState(false);
     const [pages, setPages]=useState<number>(1);
 
     const endpoint =
@@ -17,37 +15,23 @@ const MoviePage = () => {
         location.pathname === "/top_rated" ? "top_rated" :
         location.pathname === "/upcoming" ? "upcoming" :
         "popular";
-    useEffect(() => {
-        const loadMovies = async () => {
-            setIsloading(true);
-            try {
-                const { data } = await axios.get<Movies>(
-                    `https://api.themoviedb.org/3/movie/${endpoint}?language=en-US&page=${pages}`,
-                    {
-                        headers: {
-                            Authorization: `Bearer ${import.meta.env.VITE_TMDB_KEY}`,
-                        },
-                    }
-                );
 
-                setMovies(data.results);
-                setIsloading(false);
-                setIserror(false);
-            } catch (error) {
-                console.error(error)
-                setIserror(true);
-            }
-        };
+    const {data: movies, isLoading: loadCredit, isError: errorCredit }=useCustomFetch<Movies>(
+            `https://api.themoviedb.org/3/movie/${endpoint}?language=en-US&page=${pages}`);
 
-        loadMovies();
-    }, [endpoint,pages]);
 
     useEffect(() => { setPages(1); }, [endpoint]);
 
+    if(errorCredit) return (<ErrorPage />);
+    if(loadCredit) return (
+        <div className="flex justify-center items-center h-screen">
+        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-black-500"></div>
+        </div>
+    );
+    
+    if (!movies) return null;
     return (
         <>
-            {isError &&(<ErrorPage />)}
-
             <div className="">
                 <div className="flex items-center justify-center gap-3 mb-5">
                     <button
@@ -70,19 +54,11 @@ const MoviePage = () => {
                     </button>
                 </div>
 
-                {!isLoading && (
-                    <ul className="container mx-auto px-16 py-4 grid grid-cols-6 gap-2">
-                        {movies.map((m) => (
-                            <MovieCard key={m.id} movie={m}/>
-                        ))}
-                    </ul>
-                )}
-                
-                {isLoading && (
-                    <div className="flex justify-center items-center h-screen">
-                        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-black-500"></div>
-                    </div>
-                )}
+                <ul className="container mx-auto px-16 py-4 grid grid-cols-6 gap-2">
+                    {movies.results.map((m) => (
+                        <MovieCard key={m.id} movie={m}/>
+                    ))}
+                </ul>
             </div>
         </>
     );
