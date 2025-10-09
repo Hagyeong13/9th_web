@@ -109,7 +109,7 @@ const SignPage = () => {
                             </button>
                         </div>
                         {(!errors?.password&&values.password) && confirmTouched && errors?.confirm && (
-                            <p className="text-red-500 text-sm mb-2">{errors.confirm}</p>
+                            <p className="relative w-70 text-red-500 text-sm mb-2 ml-3">{errors.confirm}</p>
                         )}
                     </>
                 )}
