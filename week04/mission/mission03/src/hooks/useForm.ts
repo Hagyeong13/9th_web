@@ -7,21 +7,15 @@ interface UseFormProps<T> {
 
 function useForm<T>({initialValue,validate}:UseFormProps<T>) {
     const [values,setValues]=useState(initialValue);
-    const [touched, setTouched]=useState<Record<string,boolean>>();
-    const [errors,setErrors]=useState<Record<string,string>>();
+    const [touched, setTouched]=useState<Record<string,boolean>>({});
+    const [errors,setErrors]=useState<Record<string,string>>({});
 
     const handleChange=(name:keyof T,text:string) => {
-        setValues({
-            ...values,
-            [name]:text,
-        });
+        setValues(prev => ({ ...prev, [name]: text }));      
     };
 
     const handleBlur=(name:keyof T) => {
-        setTouched({
-            ...touched,
-           [name]:true, 
-        });
+        setTouched(prev => ({ ...prev, [name as string]: true }));
     };
 
     const getInputProps=(name:keyof T)=>{
@@ -33,7 +27,7 @@ function useForm<T>({initialValue,validate}:UseFormProps<T>) {
     }
 
     useEffect(()=>{
-        const newErrors=validate(values);
+        const newErrors = validate(values) || {};
         setErrors(newErrors);
     },[validate,values]);
 
