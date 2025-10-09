@@ -6,6 +6,7 @@ import HomePage from './pages/homePage';
 import LoginPage from './pages/loginPage';
 import MoviePage from './pages/MoviePage';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import SignPage from './pages/signupPage';
 
 const router=createBrowserRouter([
   {
@@ -51,6 +52,10 @@ const router=createBrowserRouter([
       {
         path:'login',
         element: <LoginPage />
+      },
+      {
+        path:'sign',
+        element: <SignPage />
       },
       {
         path: "*",
