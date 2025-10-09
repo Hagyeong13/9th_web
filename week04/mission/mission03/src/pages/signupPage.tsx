@@ -10,10 +10,15 @@ const SignPage = () => {
     const [step, setStep] = useState(1);
     const [confirm, setConfirm] = useState("");
     const [confirmTouched, setConfirmTouched] = useState(false);
+    const [showConfirm, setShowConfirm] = useState(false);
 
     const handleBack = () => {
         if (step === 2) {
             setStep(1);
+            return;
+        }
+        else if (step === 3) {
+            setStep(2);
             return;
         }
         if (window.history.length > 1) navigate(-1);
@@ -49,12 +54,12 @@ const SignPage = () => {
     const handleSubmit = () => {
         if (step === 1) {
             if (!errors?.email && values.email) setStep(2);
-        } else {
-            if (!errors?.email && !errors?.password && values.password === confirm) {
-                console.log("회원가입 완료:", values.email);
-                navigate("/login");
-            }
         }
+        else if(step===2) {
+            if (!errors?.email && !errors?.password && values.password === confirm) setStep(3);
+        }
+        else if(step===3)
+            navigate("/login");
     };
 
     const isDisabled =
@@ -77,14 +82,24 @@ const SignPage = () => {
                 {step===2&&(
                     <>
                         <LoginForm name="password" context="비밀번호를 입력하세요."  {...form} />
-                        <input
-                            type="password"
-                            placeholder="비밀번호를 한 번 더 입력하세요."
-                            value={confirm}
-                            onChange={(e) => setConfirm(e.target.value)}
-                            onBlur={() => setConfirmTouched(true)}
-                            className={`flex w-70 h-10 rounded text-gray-400 border items-center justify-start px-3 mb-3 text-sm ${(!errors?.password&&values.password) && confirmTouched && errors?.confirm ? "border-red-500 bg-red-200" : "border-gray-300"}`}
-                        />
+                        <div className="relative w-70">
+                            <input
+                                type={showConfirm ? "text" : "password"}
+                                placeholder="비밀번호를 한 번 더 입력하세요."
+                                value={confirm}
+                                onChange={(e) => setConfirm(e.target.value)}
+                                onBlur={() => setConfirmTouched(true)}
+                                className={`w-full h-10 rounded text-gray-400 border items-center justify-start px-3 mb-3 text-sm pr-9 ${(!errors?.password&&values.password) && confirmTouched && errors?.confirm ? "border-red-500 bg-red-200" : "border-gray-300"}`}
+                            />
+                            <button
+                                type="button"
+                                onClick={() => setShowConfirm((v) => !v)}
+                                aria-label={showConfirm ? "비밀번호 숨기기" : "비밀번호 보기"}
+                                className="absolute right-2 top-1/3 -translate-y-1/2 text-gray-500 leading-none"
+                            >
+                                {showConfirm ? "x" : "o"}
+                            </button>
+                        </div>
                         {(!errors?.password&&values.password) && confirmTouched && errors?.confirm && (
                             <p className="text-red-500 text-sm mb-2">{errors.confirm}</p>
                         )}
@@ -93,7 +108,7 @@ const SignPage = () => {
 
                 <button onClick={handleSubmit} disabled={isDisabled}
                     className={`flex w-70 h-10 rounded items-center justify-center mb-3 text-sm font-semibold
-                    ${isDisabled ? "cursor-not-allowed bg-white border border-gray-300 text-gray-300" :"cursor-pointer bg-gray-200 border border-gray-300" }`}>{step === 1 ? "다음" : "가입 완료"}</button>
+                    ${isDisabled ? "cursor-not-allowed bg-white border border-gray-300 text-gray-300" :"cursor-pointer bg-gray-200 border border-gray-300" }`}>다음</button>
                 </div>
         </>
     )
