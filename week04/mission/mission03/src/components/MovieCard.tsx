@@ -8,15 +8,15 @@ interface MovieCardProps {
 
 const MovieCard = ({movie} : MovieCardProps) => {
     const [isHover, setIshover] = useState(false);
-    const navigate = useNavigate();
-    const location = useLocation();
-
     
+    const navigate = useNavigate();
+    const location=useLocation();
     const basePath = location.pathname.split("/")[1] || "popular";
 
     const handleClick = () => {
         navigate(`/${basePath}/${movie.id}`);
     };
+
     return (
         <>
             <li className="relative group cursor-pointer rounded-xl shadow-lg w-44 transition-transform duration-500 hover:scale-105" key={movie.id} onMouseEnter={():void => setIshover(true)} onMouseLeave={():void=>setIshover(false)} onClick={handleClick}>
