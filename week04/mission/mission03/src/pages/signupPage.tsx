@@ -140,9 +140,10 @@ export default SignPage;
 
 import { useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { useForm } from "react-hook-form";
+import { useForm, type SubmitHandler } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { postSingup } from "../apis/auth";
 
 const schema =z.object({
     email:z.string().email({message:"올바른 이메일 형식이 아닙니다."}),
@@ -150,7 +151,7 @@ const schema =z.object({
         message: "비밀번호는 8자 이상이어야 합니다.",
     }).max(20,{message:"비밀번호는 20자 이하여야 합니다.",}),
     passwordCheck: z.string().min(1, { message: "비밀번호 확인을 입력해주세요." }),
-    nickname: z.string().min(1, { message: "이름을 입력해주세요." }),
+    name: z.string().min(1, { message: "이름을 입력해주세요." }),
 })
 .superRefine((vals, ctx) => {
   if (vals.password && vals.passwordCheck && vals.password !== vals.passwordCheck) {
@@ -178,7 +179,7 @@ const SignPage =()=>{
         watch,
         formState: { errors, touchedFields, isSubmitting },
     } = useForm<FormFields>({
-        defaultValues: { email: "", password: "", passwordCheck: "", nickname: "" },
+        defaultValues: { email: "", password: "", passwordCheck: "", name: "" },
         resolver: zodResolver(schema),
         mode: "onTouched",
     });
@@ -202,15 +203,14 @@ const SignPage =()=>{
         }
     }, [step, trigger]);
 
-  const onValid = useCallback((data: FormFields) => {
-    const userData = {
-      email: data.email,
-      password: data.password,
-      nickname: data.nickname,
-    };
-    console.log("signup:", userData);
-    navigate("/login");
-  }, [navigate]);
+    const onSubmit: SubmitHandler<FormFields> = async (data) => {
+    const { email, password, name } = data;
+    const rest = { email, password, name };
+    const response=await postSingup(rest);
+    console.log("signup:", response);
+
+  navigate("/login");
+};
 
   const isDisabled =
   isSubmitting ||
@@ -219,7 +219,7 @@ const SignPage =()=>{
     : step === 2
     ? !!errors.password || !!errors.passwordCheck ||
       !watch("password") || !watch("passwordCheck") // ← 둘 다 비었을 때도
-    : !!errors.nickname || !watch("nickname"));     // ← 닉네임 비었을 때
+    : !!errors.name || !watch("name"));     // ← 닉네임 비었을 때
 
 
   return (
@@ -277,13 +277,13 @@ const SignPage =()=>{
                 {step===3&&(
                     <div className="relative w-70">
                         <input
-                            {...register("nickname")}
+                            {...register("name")}
                             type="text"
                             placeholder="닉네임을 입력하세요."
-                            className={`w-full h-10 rounded text-gray-400 border px-3 mb-3 text-sm ${errors.nickname && touchedFields.nickname ? "border-red-500 bg-red-200" : "border-gray-300"}`}
+                            className={`w-full h-10 rounded text-gray-400 border px-3 mb-3 text-sm ${errors.name && touchedFields.name ? "border-red-500 bg-red-200" : "border-gray-300"}`}
                         />
-                        {errors.nickname && touchedFields.nickname && (
-                            <p className="text-red-500 text-sm ml-1 mb-2">{errors.nickname.message}</p>
+                        {errors.name && touchedFields.name && (
+                            <p className="text-red-500 text-sm ml-1 mb-2">{errors.name.message}</p>
                         )}
                     </div>
                 )}
@@ -299,7 +299,7 @@ const SignPage =()=>{
                     </button>
                 ) : (
                     <button
-                    onClick={handleSubmit(onValid)}
+                    onClick={handleSubmit(onSubmit)}
                     disabled={isDisabled}
                     className={`flex w-70 h-10 rounded items-center justify-center mb-3 text-sm font-semibold
                     ${isDisabled ? "cursor-not-allowed bg-white border border-gray-300 text-gray-300" :"cursor-pointer bg-gray-200 border border-gray-300" }`}

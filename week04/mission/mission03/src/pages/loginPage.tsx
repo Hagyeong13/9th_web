@@ -3,8 +3,13 @@ import LoginForm from "../components/loginForm";
 import useForm from "../hooks/useForm";
 import type { UserSignInformation } from "../utils/validate";
 import { validateSignin } from "../utils/validate";
+import type { ResponseSigninDto } from "../types/auth";
+import { postSingin } from "../apis/auth";
+import { useLocalStorage } from "../hooks/useLocalStorage";
+import { LOCAL_STORAGE_KEY } from "../constants/key";
 
 const LoginPage = () => {
+    const {setItem}=useLocalStorage(LOCAL_STORAGE_KEY.accessToken);
     const navigate = useNavigate();
 
     const handleBack = () => {
@@ -18,7 +23,14 @@ const LoginPage = () => {
     });
     const { values, errors } = form;
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
+        try{
+            const response:ResponseSigninDto=await postSingin(values);
+            setItem(response.data.accessToken);
+            console.log(response);
+        }catch(error){
+            alert(error);
+        }
     };
 
     const isDisabled =

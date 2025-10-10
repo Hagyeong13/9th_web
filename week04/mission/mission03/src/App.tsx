@@ -7,6 +7,7 @@ import LoginPage from './pages/loginPage';
 import MoviePage from './pages/MoviePage';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import SignPage from './pages/signupPage';
+import MyPage from './pages/MyPage';
 
 const router=createBrowserRouter([
   {
@@ -56,6 +57,10 @@ const router=createBrowserRouter([
       {
         path:'sign',
         element: <SignPage />
+      },
+      {
+        path:'my',
+        element: <MyPage />
       },
       {
         path: "*",
