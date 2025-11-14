@@ -11,6 +11,7 @@ import ProtectedLayout from './layout/ProtectedLayout';
 import GoogleLoginRedirectPage from './pages/GoogleLoginRedirectPage';
 import {  QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import DetailLp from './pages/DetailLp';
 
 //publicRoutes:인증 없이 접근 가능
 const publicRoutes:RouteObject[]=[
@@ -21,6 +22,10 @@ const publicRoutes:RouteObject[]=[
       {
         index: true,
         element: <HomePage />
+      },
+      {
+        path:'lp/:lpId',
+        element: <DetailLp />
       },
       {
         path:'login',
