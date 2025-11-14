@@ -8,6 +8,7 @@ import {
 } from "@heroicons/react/24/outline";
 import ErrorPage from "./errorPage";
 import type { Lp, ResponseLpDetailDto } from "../types/lp";
+import CommentsSection from "../components/LpComment/CommentsSection";
 
 const fetchLpDetail = async (id: string): Promise<Lp> => {
   const { data } = await axios.get<ResponseLpDetailDto>(
@@ -59,7 +60,7 @@ const DetailLp = () => {
               {lp.title.charAt(0).toUpperCase()}
             </div>
             <div className="flex flex-col">
-              <span className="text-sm text-gray-300">auth</span>
+              <span className="text-sm text-gray-300">{lp.authorld}</span>
               <span className="text-xs text-gray-500">
                 {formatFromNow(lp.updatedAt)}
               </span>
@@ -115,6 +116,8 @@ const DetailLp = () => {
           <HeartIcon className="w-6 h-6" />
           <span className="text-sm">{lp.likes?.length ?? 0}</span>
         </div>
+
+        <CommentsSection lpId={id} />
     </>
   );
 };
