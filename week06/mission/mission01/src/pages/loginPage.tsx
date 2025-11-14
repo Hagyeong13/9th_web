@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import LoginForm from "../components/loginForm";
 import useForm from "../hooks/useForm";
 import type { UserSignInformation } from "../utils/validate";
@@ -9,13 +9,14 @@ import { useEffect } from "react";
 const LoginPage = () => {
     const {login,accessToken} = useAuth();
     const navigate = useNavigate();
-
+    const location = useLocation();
     useEffect(()=>{
         if(accessToken)
         {
-            navigate("/");
+            const redirectTo = location.state?.from || "/";
+            navigate(redirectTo, { replace: true });
         }
-    },[navigate,accessToken])
+    },[navigate,accessToken,location])
 
     const handleBack = () => {
         if (window.history.length > 1) navigate(-1);

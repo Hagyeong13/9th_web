@@ -1,4 +1,3 @@
-// src/layouts/ProtectedLayout.tsx
 import { Navigate, Outlet } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import Navbar from "../components/navbar";
@@ -18,7 +17,7 @@ const ProtectedLayout = () => {
   const toggleSidebar = () => setSidebarOpen((v) => !v);
 
   // 인증이 없으면 로그인 페이지로
-  if (!accessToken) return <Navigate to="/login" replace />;
+  if (!accessToken) return <Navigate to="/login" replace state={{ from: location.pathname }} />;
 
   return (
     <div className="h-screen flex flex-col">

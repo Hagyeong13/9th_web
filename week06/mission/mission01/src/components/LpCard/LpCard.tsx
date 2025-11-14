@@ -25,14 +25,11 @@ const LpCard = ({lp} : LpCardProps) => {
                     <h2 className="text-sm font-bold text-white">{lp.title}</h2>
 
                     <p className="text-xs mt-1 line-clamp-3 text-gray-300">
-                      {lp.content}
+                      {new Date(lp.updatedAt).toLocaleDateString()}
                     </p>
 
                     <div className="flex items-center justify-between text-[11px] text-gray-300 mt-2">
-                      {/* 업로드일(Date 객체 바로 사용) */}
-                      <span>{new Date(lp.updatedAt).toLocaleDateString()}</span>
-
-                      {/* 좋아요 수 */}
+                      <span>{lp.published}</span>
                       <span className="flex items-center gap-1">
                         ❤️ {lp.likes?.length ?? 0}
                       </span>

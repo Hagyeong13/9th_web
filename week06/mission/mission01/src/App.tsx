@@ -24,10 +24,6 @@ const publicRoutes:RouteObject[]=[
         element: <HomePage />
       },
       {
-        path:'lp/:lpId',
-        element: <DetailLp />
-      },
-      {
         path:'login',
         element: <LoginPage />
       },
@@ -56,7 +52,12 @@ const protectedRoutes:RouteObject[]=[
     {
       path:"my",
       element:<MyPage/>
-    }]
+    },
+    {
+      path:'lp/:lpId',
+      element: <DetailLp />
+    },
+  ]
   }
 ]
 const router=createBrowserRouter([...publicRoutes,...protectedRoutes]);

@@ -18,8 +18,8 @@ export type Lp = {
     thumbnail: string;
     published: boolean;
     authorld: number;
-    ceatedAt: Date;
-    updatedAt: Date;
+    ceatedAt: string;
+    updatedAt: string;
     tags: Tag[];
     likes: Likes[];
 }
@@ -37,8 +37,8 @@ export type ResponseLpDetailDto = {
         thumbnail: string;
         published: boolean;
         authorld: number;
-        ceatedAt: Date;
-        updatedAt: Date;
+        ceatedAt: string;
+        updatedAt: string;
         tags: Tag[];
         likes: Likes[];
     };
